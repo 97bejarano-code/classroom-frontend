@@ -23,6 +23,31 @@ const SubjectsList = () => {
         {field: 'name', operator: 'contains' as const, value:searchQuery},
     ]:[]
 
+    const subjectColumns = useMemo<ColumnDef<Subject>[]>(() => [
+        {
+            id: 'name',
+            accessorKey: 'name',
+            size: 200,
+            header: () => <p className="column-title">Name</p>,
+            cell: ({getValue}) => <span className="text-foreground">{getValue<string>()}</span>,
+            filterFn: 'includesString'
+        },
+        {
+            id: 'department',
+            accessorKey: 'department.name',
+            size: 150,
+            header: () => <p className='column-title'>Department</p>,
+            cell: ({getValue}) => <Badge variant='secondary'>{getValue<string>()}</Badge>
+        },
+        {
+            id: 'description',
+            accessorKey: 'description',
+            size: 300,
+            header: () => <p className='column-title'>Description</p>,
+            cell: ({getValue}) => <span className='truncate line-clamp-2'>{getValue<string>()}</span>
+        }
+        ], []);
+
     const subjectTable = useTable<Subject>({
         columns: useMemo<ColumnDef<Subject>[]>(() => [
             {
@@ -73,7 +98,7 @@ const SubjectsList = () => {
         <ListView>
             <Breadcrumb />
             <h1 className="page-title">Subjects</h1>
-            <div className={'intro-row'}>
+            <div className='intro-row'>
                 <p>Quick access to essential metrics and management tools.</p>
 
                 <div className='actions-row'>
@@ -89,14 +114,14 @@ const SubjectsList = () => {
                     </div>
                     <div className='flex gap-2 w-full sm:w-auto'>
                         <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
-                            <SelectTrigger>
+                            <SelectTrigger className="">
                                 <SelectValue placeholder='Filter by department'/>
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="all">
                                     All Departments
                                 </SelectItem>
-                                {DEPARTMENT_OPTIONS.map(department => (
+                                {DEPARTMENT_OPTIONS.map((department) => (
                                     <SelectItem key={department.value} value={department.value}>
                                         {department.label}
                                     </SelectItem>
