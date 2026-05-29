@@ -4,3 +4,5 @@ export const DEPARTMENTS=['CS','Math','English','French'];
         value:dept,
         label:dept,
 }))
+
+
