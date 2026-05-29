@@ -3,7 +3,7 @@ import {BACKEND_BASE_URL} from "@/constants";
 import {ListResponse} from "@/types";
 
 if (!BACKEND_BASE_URL) {
-
+  throw new Error('BACKEND_BASE_URL is required');
 }
 
 const options: CreateDataProviderOptions = {
@@ -31,7 +31,7 @@ const options: CreateDataProviderOptions = {
     },
 
     mapResponse: async ( response ) => {
-      const payload: ListResponse = await response.clone()json();
+      const payload: ListResponse = await response.clone().json();
       return payload.data ?? [];
     },
     getTotalCount: async(response) => {
